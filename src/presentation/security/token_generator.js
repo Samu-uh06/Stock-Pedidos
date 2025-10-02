@@ -28,7 +28,7 @@ export default class TokenGenerator {
    * @param {string} secret - Clave secreta para firmar y verificar los tokens.
    * @param {string} [expiresIn="10m"] - Tiempo de expiración del token (ej: `"15m"`, `"1h"`, `"7d"`).
    */
-  constructor(secret, expiresIn = process.env.JWT_EXPIRES_IN || "15m") {
+  constructor(secret, expiresIn = process.env.JWT_EXPIRES_IN || "45m") {
     this.secret = secret;
     this.expiresIn = expiresIn;
   }

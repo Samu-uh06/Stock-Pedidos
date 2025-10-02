@@ -42,10 +42,32 @@ export default class UpdateUser {
    * @returns {Promise<Object>} - Devuelve el usuario actualizado
    */
   async execute(id, userData) {
-    // Crear instancia de User con los datos entrantes
-    const user = new User(userData);
+    // Para actualización, no validamos con la entidad User ya que no siempre
+    // tendremos todos los campos (especialmente password)
+    // Validamos manualmente los campos que sí vienen
+    
+    if (userData.name && userData.name.length < 2) {
+      throw new Error("❌ Nombre debe tener al menos 2 caracteres ❌");
+    }
+    
+    if (userData.email && (userData.email.length < 6 || !userData.email.includes("@"))) {
+      throw new Error("❌ Email inválido ❌");
+    }
+    
+    if (userData.rol && userData.rol.length < 2) {
+      throw new Error("❌ Rol inválido ❌");
+    }
 
-    // Delegar la actualización al repositorio
-    return await this.userRepository.update(id, user);
+    // Delegar la actualización al repositorio directamente con los datos
+    try {
+      return await this.userRepository.update(id, userData);
+    } catch (error) {
+      // Manejar errores específicos de MongoDB
+      if (error.code === 11000) {
+        // Error de duplicado (email único)
+        throw new Error("❌ El email ya está en uso por otro usuario ❌");
+      }
+      throw error;
+    }
   }
 }

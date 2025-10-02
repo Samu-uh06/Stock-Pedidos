@@ -41,8 +41,10 @@ export default class DeleteOrder {
    * @param {Object} orderRepository - Repositorio para operaciones CRUD de pedidos
    *                                 Debe implementar el método delete(id)
    */
-  constructor(orderRepository) {
+  constructor(orderRepository, orderDetailsRepository, productRepository) {
     this.orderRepository = orderRepository;
+    this.orderDetailsRepository = orderDetailsRepository;
+    this.productRepository = productRepository;
   }
 
   /**
@@ -75,6 +77,15 @@ export default class DeleteOrder {
    * const result = await deleteOrder.execute("64a1b2c3d4e5f6789abcdef0");
    */
   async execute(id) {
-    return await this.orderRepository.delete(id);
+    // Soft delete: set status to false and leverage UpdateOrder logic to restore stock
+    const UpdateOrder = (await import("./UpdateOrder.js")).default;
+    const updateOrder = new UpdateOrder(
+      this.orderRepository,
+      this.orderDetailsRepository,
+      this.productRepository
+    );
+
+    const updated = await updateOrder.execute(id, { status: false });
+    return updated;
   }
 }

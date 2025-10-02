@@ -150,12 +150,17 @@ export const updateOrder = async (req, res) => {
  */
 export const deleteOrder = async (req, res) => {
   try {
-    const deleteOrder = new DeleteOrder(orderRepository);
+    // Soft-cancel: usa DeleteOrder que ahora cancela (status=false) y restaura stock
+    const deleteOrder = new DeleteOrder(
+      orderRepository,
+      orderDetailsRepository,
+      productRepository
+    );
     const result = await deleteOrder.execute(req.params.id);
 
     if (!result) return res.status(404).json({ message: "Pedido no encontrado" });
 
-    res.json({ message: "✅ Pedido eliminado correctamente ✅" });
+    res.json({ message: "✅ Pedido cancelado correctamente ✅", order: result });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

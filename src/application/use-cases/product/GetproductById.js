@@ -8,4 +8,4 @@ export default class GetProductById {
   }
 }
 
-//cambio para el nombre del archivo
+// Fixed for Render deployment

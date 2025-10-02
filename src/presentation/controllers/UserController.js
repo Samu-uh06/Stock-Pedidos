@@ -79,9 +79,15 @@ export const getUserById = async (req, res) => {
  */
 export const updateUser = async (req, res) => {
   try {
+    // Verificar que el usuario existe antes de actualizar
+    const existingUser = await userRepository.findById(req.params.id);
+    if (!existingUser) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
     const updateUser = new UpdateUser(userRepository);
     const user = await updateUser.execute(req.params.id, req.body);
-    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+    
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -91,6 +91,15 @@ class OrderDetailsRepositoryMongo {
   async delete(id) {
     return await OrderDetailsModel.findByIdAndDelete(id);
   }
+
+  /**
+   * ELIMINA TODOS LOS DETALLES ASOCIADOS A UNA ORDEN
+   * @param {String} orderId - ID de la orden
+   * @returns {Promise<Object>} Resultado de la eliminación
+   */
+  async deleteByOrderId(orderId) {
+    return await OrderDetailsModel.deleteMany({ orderId: orderId });
+  }
 }
 
 export default OrderDetailsRepositoryMongo;

@@ -145,7 +145,7 @@ import cors from "cors";
  */
 const corsMiddleware = cors({
   origin: [
-    "https://stockandpedidosapi.onrender.com",
+    "https://stock-pedidos-2.onrender.com",
     "http://localhost:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000"

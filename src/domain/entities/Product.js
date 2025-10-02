@@ -59,7 +59,7 @@ class Product {
 
     if(!price || price < 0) throw new Error("❌ Precio inválido ❌");
 
-    if(stock == null || stock < 0) throw new Error("❌ Stock inválido ❌");
+    if(stock == null || stock < 0) throw new Error("❌ Stock invalido  ❌");
 
     if(!category) throw new Error("❌ Categoria inválida ❌");
 

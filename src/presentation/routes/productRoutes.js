@@ -31,6 +31,11 @@ const router = Router();
  * import productRoutes from "./presentation/routes/productRoutes.js";
  * app.use("/products", productRoutes);
  */
+// Ruta de prueba para verificar que funciona sin auth
+router.get("/test", (req, res) => {
+  res.json({ message: "✅ Ruta pública funcionando - Sin token requerido" });
+});
+
 router.post("/", authMiddleware, createProduct);
 router.get("/", getProduct);  // Público - para mostrar catálogo
 router.get("/:id", getProductById);  // Público - para ver detalles

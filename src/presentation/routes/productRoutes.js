@@ -8,6 +8,8 @@ import {
   deleteProduct
 } from "../controllers/ProductController.js";
 
+import { testController } from "../controllers/TestController.js";
+
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = Router();
@@ -32,14 +34,21 @@ const router = Router();
  * app.use("/products", productRoutes);
  */
 // Ruta de prueba para verificar que funciona sin auth
-router.get("/test", (req, res) => {
-  res.json({ message: "✅ Ruta pública funcionando - Sin token requerido" });
-});
+router.get("/test", testController);
 
-router.post("/", authMiddleware, createProduct);
-router.get("/", getProduct);  // Público - para mostrar catálogo
-router.get("/:id", getProductById);  // Público - para ver detalles
-router.put("/:id", authMiddleware, updateProduct);
-router.delete("/:id", authMiddleware, deleteProduct);
+// Temporalmente comentadas para diagnosticar el error de módulos
+// router.post("/", authMiddleware, createProduct);
+// router.get("/", getProduct);  // Público - para mostrar catálogo
+// router.get("/:id", getProductById);  // Público - para ver detalles
+// router.put("/:id", authMiddleware, updateProduct);
+// router.delete("/:id", authMiddleware, deleteProduct);
+
+// Ruta simple para probar que el servidor funciona
+router.get("/", (req, res) => {
+  res.json({ 
+    message: "✅ Productos endpoint funcionando",
+    note: "Controladores temporalmente deshabilitados para diagnosticar error de módulos"
+  });
+});
 
 export default router;

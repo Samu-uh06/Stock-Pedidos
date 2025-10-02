@@ -15,12 +15,12 @@ const router = Router();
 /**
  * Rutas para la gestión de productos.
  *
- * Todas las rutas requieren autenticación con JWT mediante `authMiddleware`.
+ * Rutas públicas (sin autenticación):
+ * - `GET /` → Obtiene todos los productos (catálogo público).
+ * - `GET /:id` → Obtiene un producto por su ID (detalles públicos).
  *
- * Endpoints disponibles:
+ * Rutas protegidas (requieren autenticación JWT):
  * - `POST /` → Crea un nuevo producto.
- * - `GET /` → Obtiene todos los productos.
- * - `GET /:id` → Obtiene un producto por su ID.
  * - `PUT /:id` → Actualiza un producto existente por su ID.
  * - `DELETE /:id` → Elimina un producto por su ID.
  *
@@ -32,8 +32,8 @@ const router = Router();
  * app.use("/products", productRoutes);
  */
 router.post("/", authMiddleware, createProduct);
-router.get("/", authMiddleware, getProduct);
-router.get("/:id", authMiddleware, getProductById);
+router.get("/", getProduct);  // Público - para mostrar catálogo
+router.get("/:id", getProductById);  // Público - para ver detalles
 router.put("/:id", authMiddleware, updateProduct);
 router.delete("/:id", authMiddleware, deleteProduct);
 

@@ -98,7 +98,7 @@ export const deleteProduct = async (req, res) => {
     const deleteProduct = new DeleteProduct(productRepository);
     const result = await deleteProduct.execute(req.params.id);
     if (!result) return res.status(404).json({ message: "Producto no encontrado" });
-    res.json({ message: "✅ Producto eliminado correctamente ✅" });
+    res.json({ message: "✅ Producto cancelado correctamente ✅" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
